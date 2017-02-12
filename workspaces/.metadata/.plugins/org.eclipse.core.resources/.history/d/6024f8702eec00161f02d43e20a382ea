@@ -1,0 +1,48 @@
+package cis2278project1;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import com.ndnu.jdbc2.DBConnection;
+
+public class EmpPhoneProcessor{
+	private Connection connection;
+	private Statement statement;
+	public EmployeePhones e_phones = new EmployeePhones();
+		
+	public EmpPhoneProcessor() {
+	  	   DBConnection dbc = new DBConnection();
+		   connection = dbc.getConnection();
+		   try {
+		     statement = connection.createStatement();
+		   }catch (SQLException sqlex) {
+		     sqlex.printStackTrace();
+		   }
+	 }
+
+	//This createEmpPhone method allows you to insert a phone number into the database and attribute it to an employee populating the Employee, EmpPhones and Phones tables with the parameters entered. 
+	public void createEmpPhone(Employee emp, Phones phone) throws SQLException {
+		try {   
+		   String insertEmployeeQuery = "insert into Employee value" + emp;
+		   statement.executeUpdate(insertEmployeeQuery);
+		   ResultSet empIdResultSet = statement.getGeneratedKeys();
+
+		   String insertPhoneQuery = "insert into Phones value" + phone;
+   		   statement.executeUpdate(insertPhoneQuery);
+   		   ResultSet phoneResultSet = statement.getGeneratedKeys();
+		 
+		   String insertEmployeePhonesQuery = "insert into EmployeePhones values (" +
+		   empIdResultSet + " , '" + phoneResultSet + "')";
+		   statement.executeUpdate(insertEmployeePhonesQuery);
+	   } catch (SQLException e) {
+	       e.printStackTrace();
+	    }
+	}
+	
+	
+	
+}
+
+
+

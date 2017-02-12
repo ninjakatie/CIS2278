@@ -1,0 +1,30 @@
+/*
+ * DBTest.java
+ *
+ * Created on December 18, 2005, 9:39 AM
+ *
+ * Create this file under 'session2' package.
+ */
+
+package cis2278project1;
+
+import java.sql.SQLException;
+
+/**
+ *
+ * @author Rolly
+ *
+ */
+
+//The Test Class executes the statement.
+
+public class DBTest {
+    
+    public static void main(String[] args) {
+	   EmpPhoneProcessor epp = new EmpPhoneProcessor();
+	   Employee emp1 = new Employee("1", "Katie", "Fedoseeva", 5000.00, "04022016", "3");
+	   Phones phone1 = new Phones("6504800201", "Samsung Galaxy");
+	   epp.createEmpPhone(emp1, phone1);
+	   epp.closeConnection();
+	}
+}

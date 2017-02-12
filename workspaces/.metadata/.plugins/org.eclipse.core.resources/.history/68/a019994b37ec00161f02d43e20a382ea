@@ -1,0 +1,86 @@
+package cis2278project1;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import com.ndnu.jdbc2.DBConnection;
+
+public class EmpPhoneProcessor{
+	private Connection connection;
+	private Statement statement;
+	public EmployeePhones e_phones = new EmployeePhones();
+		
+	public EmpPhoneProcessor() {
+	  	   DBConnection dbc = new DBConnection();
+		   connection = dbc.getConnection();
+		   try {
+		     statement = connection.createStatement();
+		   }catch (SQLException sqlex) {
+		     sqlex.printStackTrace();
+		   }
+	 }
+	
+	public void closeConnection() {
+        try {
+            connection.close();
+        }catch (SQLException sqlex){
+            sqlex.printStackTrace();
+        }
+    }
+
+	//This createEmpPhone method allows you to insert a phone number into the database and attribute it to an employee populating the Employee, EmpPhones and Phones tables with the parameters entered. 
+	public void createEmpPhone(Employee emp, Phones phone) {
+		try {   
+			int generatedEmpId = 0;
+			int generatedPhoneId = 0;
+			
+		   String insertEmployeeQuery = "insert into Employee value" + emp;
+		   statement.executeUpdate(insertEmployeeQuery);
+		   ResultSet empIdResultSet = statement.getGeneratedKeys();
+		   if(empIdResultSet.next()) {
+               generatedEmpId = empIdResultSet.getInt(1);
+		   }
+
+		   String insertPhoneQuery = "insert into Phones value" + phone;
+   		   statement.executeUpdate(insertPhoneQuery);
+   		   ResultSet phoneResultSet = statement.getGeneratedKeys();
+   		   if(phoneResultSet.next()) {
+   			   generatedPhoneId = phoneResultSet.getInt(1);
+   		   }
+		   
+   		   if(generatedEmpId != 0 && generatedPhoneId != 0) {
+   			String insertEmployeePhonesQuery = "insert into EmployeePhones values (" +
+   				   generatedEmpId + " , '" + generatedPhoneId + "')";
+   				   statement.executeUpdate(insertEmployeePhonesQuery);
+   		   }
+	   } catch (SQLException e) {
+	       e.printStackTrace();
+	    }
+	}
+	
+	//this method removes phones from the Phones and EmpPhones tables.
+	public void deleteEmpPhone(int empId, String phoneNumber) {
+		
+		String deletePhoneFromEmpPhonesQuery = "delete from EmployeePhones where emp_id =" + empId;
+		try {
+			statement.executeUpdate(deletePhoneFromEmpPhonesQuery);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		String deletePhoneFromPhonesQuery = "delete from Phones where emp_id =" + empId;
+		try {
+			statement.executeUpdate();
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+		
+		
+	}
+	
+	
+}
+
+
+

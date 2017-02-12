@@ -1,0 +1,24 @@
+package hw1;
+
+public class Address {
+	public String address;
+	public String street;
+	public String city;
+	public String state;
+	public int zip;
+	
+	public Address(String address, String street, String city, String state, int zip) {
+		this.address = address;
+		this.street = street;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+	}
+	
+	public Address() {
+	}
+	
+	
+}
+
+

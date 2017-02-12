@@ -1,0 +1,9 @@
+package com.ndnu.refl2;
+
+public class EmployeeExaminer {
+
+	public static void main(String[] args) {
+		
+	}
+
+}

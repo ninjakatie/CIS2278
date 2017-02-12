@@ -1,0 +1,5 @@
+url=jdbc:derby://localhost:1527/NDNUDB
+driver=org.apache.derby.jdbc.ClientDriver
+login=guest
+password=password
+

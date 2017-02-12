@@ -1,0 +1,6 @@
+package hw2;
+
+public class IntegerSet {
+	int[] setOfInts = new int[0-100];
+	
+}

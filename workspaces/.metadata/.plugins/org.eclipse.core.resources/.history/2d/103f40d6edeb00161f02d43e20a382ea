@@ -1,0 +1,32 @@
+package cis2278project1;
+
+public class Phones {
+	private String ph_number;
+	private String ph_model;
+	
+	public Phones() {
+		ph_number = null;
+		ph_model = null;
+	}
+
+	public String getPh_number() {
+		return ph_number;
+	}
+
+	public void setPh_number(String ph_number) {
+		this.ph_number = ph_number;
+	}
+
+	public String getPh_model() {
+		return ph_model;
+	}
+
+	public void setPh_model(String ph_model) {
+		this.ph_model = ph_model;
+	}
+
+	@Override
+	public String toString() {
+		return "Phones [ph_number=" + ph_number + ", ph_model=" + ph_model + "]";
+	}
+}

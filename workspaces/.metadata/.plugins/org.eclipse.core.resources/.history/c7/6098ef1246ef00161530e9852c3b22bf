@@ -1,0 +1,23 @@
+package hw2;
+/* 1) Create class IntegerSet object can hold integers in the range 0-100.  
+ * The set is represented by an array of booleans.  Array element a[i] is true if the integer i is in the set.  
+ * Array element a[j] is false if integer j is not in the set.  The non-argument constructor initializes the Java array 
+ * to the “empty set” (i.e, a set whose array representation contains all false values). Also provide a constructor 
+ * that will accept varargs which accepts arbitrary number of integer values.
+For example, you can create an IntegerSet object as
+ IntegerSet set1 = new IntegerSet(2,5,10,20) which will set the array of location 2,5,10,20 to true.
+*/
+
+public class IntegerSet {
+	boolean[] setOfInts = new boolean[100];
+	
+	public IntegerSet() {
+		setOfInts = null;
+	}
+	
+	public IntegerSet(int... number) {	//using varargs to pass an arbitrary number of integet values. Varargs can only be used in the final argument position. 
+		int i=100;
+		setOfInts = new boolean[i];
+		
+	}
+}

@@ -1,0 +1,105 @@
+package cis2278project1;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ndnu.jdbc2.DBConnection;
+
+public class EmpPhoneProcessor{
+	private Connection connection;
+	private Statement statement;
+	public EmployeePhones e_phones = new EmployeePhones();
+		
+	public EmpPhoneProcessor() {
+	  	   DBConnection dbc = new DBConnection();
+		   connection = dbc.getConnection();
+		   try {
+		     statement = connection.createStatement();
+		   }catch (SQLException sqlex) {
+		     sqlex.printStackTrace();
+		   }
+	 }
+	
+	public void closeConnection() {
+        try {
+            connection.close();
+        }catch (SQLException sqlex){
+            sqlex.printStackTrace();
+        }
+    }
+
+	//This createEmpPhone method allows you to insert a phone number into the database and attribute it to an employee populating the  
+	//Employee, EmpPhones and Phones tables with the parameters entered. 
+	
+	public void createEmpPhone(Employee emp, Phone phone) {
+		try {   
+		   String insertEmployeeQuery = "insert into Employees values (" +
+				  emp.getEmpId() + " , '" + emp.getEmpFirstName() + "', '" +
+				  emp.getEmpLastName() + "', '" + emp.getEmpHireDate() + "', " +
+				  emp.getEmpSalary() + ", '" + emp.getEmpDeptId() + "')";	
+		   statement.executeUpdate(insertEmployeeQuery);
+
+		   String insertPhoneQuery = "insert into Phones values (" + phone.getPh_number() + ", '" + phone.getPh_model() + "')";
+   		   statement.executeUpdate(insertPhoneQuery);
+		   
+   			String insertEmployeePhonesQuery = "insert into EmployeePhones values (" +
+   				   emp.getEmpId() + " , '" + phone.getPh_number() + "')";
+   				   statement.executeUpdate(insertEmployeePhonesQuery);
+	   } catch (SQLException e) {
+	       e.printStackTrace();
+	    }
+	}
+	
+	//this method removes phones from the Phones and EmpPhones tables, assuming phone numbers are unique. 
+	public void deleteEmpPhone(int empId, String phoneNumber) {
+		String deletePhoneFromEmpPhonesQuery = "delete from EmployeePhones where emp_id =" + empId + "and phone_number = " + phoneNumber;
+		try {
+			statement.executeUpdate(deletePhoneFromEmpPhonesQuery);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		String deletePhoneFromPhonesQuery = "delete from Phones where ph_number =" + phoneNumber;
+		try {
+			statement.executeUpdate(deletePhoneFromPhonesQuery);
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+	}
+	//The getPhones method creates an ArrayList to hold all the employeePhones objects extracted from the Phones table. 
+	//In order to find the phone objects associated with each an employee Id, the EmployeePhones object is queried, and matched by the associated phone_number to the Phones table.  
+	public List<Phone> getPhones(int EmpId) {
+		ArrayList<Phone> employeePhones = new ArrayList<Phone>();
+		
+		String getPhonesQuery = "select phone_numbers " +
+		          "from EmployeePhones" +
+			  "where emp_id =" + EmpId;
+			try {
+			      ResultSet resultSet = statement.executeQuery(getPhonesQuery);
+			      while (resultSet.next()) {
+					  String empPhone = resultSet.getString("phone_number");
+					  
+					  String getPhonesObjects = "select ph_model" + "from Phones" + "where phone_number =" + empPhone;
+					  		ResultSet phoneResult = statement.executeQuery(getPhonesObjects);
+					  		while (phoneResult.next()) {
+					  			String phoneModel = phoneResult.getString("ph_model");
+					  			Phone phone = new Phone(empPhone, phoneModel);
+					  			employeePhones.add(phone);
+					  		}	  
+					    }
+			}catch (SQLException e) {
+				e.printStackTrace();
+		}		  	
+		return employeePhones;
+	}
+}
+
+
+
+
+
+

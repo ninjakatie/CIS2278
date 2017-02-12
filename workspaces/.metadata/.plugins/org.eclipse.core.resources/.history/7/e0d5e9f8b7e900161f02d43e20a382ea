@@ -1,0 +1,23 @@
+package hw1;
+
+public class Dog {
+	public String name;
+	public String breed;
+	public int age;
+	public char gender;
+	public int weight;
+	public int id;
+	
+	public Dog(String name, String breed, int age, char gender, int weight, int id) {
+		this.name = name;
+		this.breed = breed;
+		this.age = age;
+		this.gender = gender;
+		this.weight = weight;
+		this.id = id;
+	}
+	
+	public Dog() {
+	}
+	
+}

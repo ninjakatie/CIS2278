@@ -1,0 +1,43 @@
+package com.ndnu.refl2;
+import java.lang.reflect.*;
+
+import java.util.*;
+
+public class EmployeeExaminer {
+
+	public String getClassName(Object o) { //prints out the full name of the class.
+
+	// 1. Retrieve the Class object.
+	// 2. Invoke the getName() method in that Class object.
+
+	  Class c = o.getClass(); //always need this.
+	  return c.getName();
+	}
+	
+	public int getClassMethodCount(Object o) {
+		Class c = o.getClass();
+		
+		 int NumOfMethods = c.getDeclaredMethods().length;
+		 Method[] methods = c.getDeclaredMethods();
+				 
+				 //length - 1;
+		 
+		 return NumOfMethods;
+		}
+	public int getClassMethods(Object o) {
+		Class c = o.getClass();
+		
+		Method[] methods = c.getDeclaredMethods();
+	}
+	
+	
+
+public static void main(String[] args) {
+	EmployeeExaminer emex = new EmployeeExaminer();
+	Employee emp = new Employee();
+	System.out.println(emex.getClassName(emp));
+	System.out.println(emex.getClassMethodCount(emp));
+	
+}
+	
+}
